@@ -38,7 +38,7 @@
             </head>
             <body>
                 <h1>XML Sitemap for {{ SITENAME }}</h1>
-                <p>{{ SITEMETA }}</p>
+                <p>{{ SITEDESCRIPTION }}</p>
                 <p>URLs contained in this sitemap: <xsl:value-of select="count(sitemap:urlset/sitemap:url)"/></p>
                 <table cellspacing="0">
                     <thead>

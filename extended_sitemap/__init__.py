@@ -99,6 +99,7 @@ class SitemapGenerator(object):
                 # replace some template markers
                 # TODO use pelican template magic
                 xsl = xsl.replace('{{ SITENAME }}', self.context.get('SITENAME'))
+                xsl = xsl.replace('{{ SITEDESCRIPTION }}', self.context.get('SITEDESCRIPTION'))
                 fd_destination.write(xsl)
 
         # will contain the url nodes as text
