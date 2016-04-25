@@ -180,11 +180,17 @@ class SitemapGenerator(object):
         :returns: the text node
         :rtype: str
         """
+        priority = self.settings.get('priorities').get(content_type)
+        content_loc = url if url is not None else urljoin(self.url_site, self.context.get('ARTICLE_URL').format(**content.url_format))
+
+        if priority == 1.0:
+            content_loc = '{}/{}/'.format(self.context.get('SITEURL'), self.context.get('BLOG_ROOT_PATH'))
+
         return self.template_url % {
-            'loc': url if url is not None else urljoin(self.url_site, self.context.get('ARTICLE_URL').format(**content.url_format)),
+            'loc': content_loc,
             'lastmod': modification_time.strftime('%Y-%m-%d') if modification_time is not None else content.date.strftime('%Y-%m-%d'),
             'changefreq': self.settings.get('changefrequencies').get(content_type),
-            'priority': self.settings.get('priorities').get(content_type),
+            'priority': priority,
         }
 
 
