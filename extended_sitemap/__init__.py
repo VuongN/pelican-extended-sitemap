@@ -92,14 +92,16 @@ class SitemapGenerator(object):
         :param writer: the writer instance
         :type writer: pelican.writers.Writer
         """
+        ext_context = self.context.get('EXTENDED_SITEMAP_CONTEXT')
+
         # write xml stylesheet
         with open(os.path.join(os.path.dirname(__file__), 'sitemap-stylesheet.xsl'), 'r', encoding='utf-8') as fd_origin:
             with open(os.path.join(self.path_output, 'sitemap-stylesheet.xsl'), 'w', encoding='utf-8') as fd_destination:
                 xsl = fd_origin.read()
                 # replace some template markers
                 # TODO use pelican template magic
-                xsl = xsl.replace('{{ SITENAME }}', self.context.get('SITENAME'))
-                xsl = xsl.replace('{{ SITEDESCRIPTION }}', self.context.get('SITEDESCRIPTION'))
+                xsl = xsl.replace('{{ SITENAME }}', ext_context['name'])
+                xsl = xsl.replace('{{ SITEDESCRIPTION }}', ext_context['description'])
                 fd_destination.write(xsl)
 
         # will contain the url nodes as text
