@@ -8,7 +8,6 @@ import sys
 from codecs import open
 
 from pelican import signals
-from pelican.contents import Page
 
 from pytz import timezone
 
