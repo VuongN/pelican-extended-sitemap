@@ -8,6 +8,7 @@ import sys
 from codecs import open
 
 from pelican import signals
+from pelican.contents import Page
 
 from pytz import timezone
 
@@ -132,16 +133,36 @@ class SitemapGenerator(object):
             )
 
         # process category pages
+        if self.context.get('CATEGORIES_INDEX_URL'):
+            urls += self.__create_url_node_for_content(
+                articles_sorted[0],
+                'wrapper_pages',
+                url=urljoin(self.url_site, self.context.get('CATEGORIES_INDEX_URL'))
+            )
         if self.context.get('CATEGORY_URL'):
             urls += self.__process_url_wrapper_elements(self.context.get('categories'))
 
         # process tag pages
+        if self.context.get('TAGS_INDEX_URL'):
+            urls += self.__create_url_node_for_content(
+                articles_sorted[0],
+                'wrapper_pages',
+                url=urljoin(self.url_site, self.context.get('TAGS_INDEX_URL'))
+            )
         if self.context.get('TAG_URL'):
             urls += self.__process_url_wrapper_elements(sorted(self.context.get('tags'), key=lambda x: x[0].name))
 
         # process author pages
+        if self.context.get('AUTHORS_INDEX_URL'):
+            authors_wrapper_page, author_pages = self.context.get('authors')[0]
+            urls += self.__create_url_node_for_content(
+                author_pages[0],
+                'pages',
+                url=urljoin(self.url_site, self.context.get('AUTHORS_INDEX_URL'))
+            )
         if self.context.get('AUTHOR_URL'):
             urls += self.__process_url_wrapper_elements(self.context.get('authors'))
+
 
         # write the final sitemap file
         with open(os.path.join(self.path_output, 'sitemap.xml'), 'w', encoding='utf-8') as fd:
